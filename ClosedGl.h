@@ -1,10 +1,14 @@
 #pragma once
+
 #ifdef _WIN32
-#include <GL/gl.h>
 #include <windows.h>
+#include <GL/gl.h>
+#elif __APPLE__
+#include <OpenGL/gl.h>
+#include <Cocoa/Cocoa.h>
 #else
-#include <GL/glx.h>
 #include <X11/Xlib.h>
+#include <GL/glx.h>
 #endif
 
 typedef struct {
@@ -12,20 +16,41 @@ typedef struct {
   int height;
   union {
 #ifdef _WIN32
-  struct {
-      WND hwnd;
+    struct {
+      HWND hwnd;
       HDC hdc;
       HGLRC hrc;
-  } win;
+      HINSTANCE hinstance;
+    } win;
+#elif __APPLE__
+    struct {
+      NSWindow *window;
+      NSOpenGLContext *context;
+      NSApplication *app;
+    } mac;
 #else
-  struct {
+    struct {
       Display *display;
       Window window;
       GLXContext context;
-  } unix_gl;
+    } unix_gl;
 #endif
   };
 } ClosedGL_Window;
 
+typedef enum {
+  CLOSEDGL_EVENT_NONE,
+  CLOSEDGL_EVENT_QUIT,
+  CLOSEDGL_EVENT_KEYPRESS,
+  CLOSEDGL_EVENT_EXPOSE,
+} ClosedGL_EventType;
+
+typedef struct {
+  ClosedGL_EventType type;
+  int key;
+} ClosedGL_Event;
+
 void ClosedGL_CreateWindow(ClosedGL_Window *win, int width, int height, const char *title);
 void ClosedGL_SwapBuffers(ClosedGL_Window *win);
+int ClosedGL_PollEvent(ClosedGL_Window *win, ClosedGL_Event *event);
+void ClosedGL_DestroyWindow(ClosedGL_Window *win);
