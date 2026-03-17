@@ -1,11 +1,7 @@
 # Linux
 
-gcc main.c ClosedGL.c -o main -lX11 -lGL
-
-# macOS
-
-clang main.c ClosedGL.c -o main -framework Cocoa -framework OpenGL
+gcc -I. examples/main.c src/closedgl.c src/platform_x11.c -o test -lX11 -lGL -lm
 
 # Windows (mingw)
 
-gcc main.c ClosedGL.c -o main -lopengl32 -lgdi32
+gcc -I. examples/main.c src/closedgl.c src/platform_win.c -o test -lopengl32 -lgdi32 -luser32
