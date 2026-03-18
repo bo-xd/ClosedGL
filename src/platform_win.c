@@ -1,6 +1,5 @@
 #include "../ClosedGl.h"
 #include <windows.h>
-#include <stdio.h>
 
 #ifndef APIENTRY
 #define APIENTRY __stdcall

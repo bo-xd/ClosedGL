@@ -1,12 +1,10 @@
 #include "../ClosedGl.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <math.h>
 
 int main(void) {
     ClosedGL_Window win;
-    memset(&win, 0, sizeof(win));
     ClosedGL_CreateWindow(&win, 800, 600, "ClosedGL Example");
     int vsync = 1;
     ClosedGL_SetVSync(&win, vsync);

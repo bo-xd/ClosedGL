@@ -1,5 +1,4 @@
 #include "../ClosedGl.h"
-#include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
@@ -25,6 +24,7 @@ void ClosedGL_CreateWindow(ClosedGL_Window *win, int width, int height, const ch
     win->width = width;
     win->height = height;
     if (!platform_create_window(win, width, height, title)) {
+        platform_destroy_window(win);
         memset(win, 0, sizeof(*win));
     }
 }
